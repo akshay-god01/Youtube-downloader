@@ -1,25 +1,33 @@
 const express = require('express');
-const app = express();
-const cors = require('cors');
 const ytdl = require('ytdl-core');
+const cors = require('cors');
 
+const app = express();
 app.use(cors());
 
 app.get('/download', async (req, res) => {
-    const videoId = req.query.url;
     try {
-        const info = await ytdl.getInfo(videoId);
+        const videoUrl = req.query.url;
+        if (!ytdl.validateURL(videoUrl)) {
+            throw new Error('Invalid YouTube URL');
+        }
+
+        const info = await ytdl.getInfo(videoUrl);
         const formats = ytdl.filterFormats(info.formats, 'audioandvideo');
 
-        const downloadLinks = formats.map(format => ({
-            format: format.container,
-            url: format.url
-        }));
+        if (formats.length === 0) {
+            throw new Error('No video formats available');
+        }
 
-        res.json(downloadLinks);
-    } catch (error) {
-        console.error('Error fetching video info:', error);
-        res.status(500).json({ error: 'Failed to fetch download links' });
+        const videoStream = ytdl(videoUrl, {
+            quality: 'highest'
+        });
+
+        res.setHeader('Content-Disposition', `attachment; filename="${info.title}.mp4"`);
+        videoStream.pipe(res);
+    } catch (err) {
+        console.error('Error downloading video:', err.message);
+        res.status(500).send('Failed to fetch video');
     }
 });
 
