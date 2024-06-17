@@ -1,0 +1,24 @@
+{
+  "name": "youtube-downloader",
+  "version": "1.0.0",
+  "description": "Simple YouTube downloader application using ytdl-core, express, and cors middleware",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "youtube",
+    "downloader",
+    "javascript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.2",
+    "ytdl-core": "^5.10.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    // Add any development dependencies here if needed
+  }
+}
