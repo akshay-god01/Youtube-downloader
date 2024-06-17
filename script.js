@@ -8,7 +8,7 @@ function downloadVideo() {
 
     // Example URL: https://www.youtube.com/watch?v=video_id
     const videoId = extractVideoId(videoUrl);
-    const downloadUrl = `https://your-download-server.com/download?url=${videoId}`;
+    const downloadUrl = `https://tomp3.cc/youtube-to-mp3/${videoId}`;
 
     // Assuming your server returns direct download links for different formats
     fetch(downloadUrl)
